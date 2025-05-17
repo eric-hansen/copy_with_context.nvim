@@ -3,17 +3,9 @@
 local M = {}
 
 function M.get_lines(is_visual)
-  local lines, start_lnum, end_lnum
-
-  if is_visual then
-    start_lnum = vim.fn.line("'<")
-    end_lnum = vim.fn.line("'>")
-    lines = vim.fn.getline(start_lnum, end_lnum)
-  else
-    start_lnum = vim.fn.line(".")
-    end_lnum = start_lnum
-    lines = { vim.fn.getline(".") }
-  end
+  local start_lnum = is_visual and vim.fn.line("'<") or vim.fn.line(".")
+  local end_lnum = is_visual and vim.fn.line("'>") or start_lnum
+  local lines = is_visual and vim.fn.getline(start_lnum, end_lnum) or { vim.fn.getline(".") }
 
   return lines, start_lnum, end_lnum
 end
